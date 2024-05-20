@@ -1,0 +1,4 @@
+{{ define "count" }}
+    Count {{ .Count }}
+    <button hx-post="/count" hx-target="body">Count</button>
+{{ end }}
