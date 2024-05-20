@@ -1,14 +1,20 @@
+{{ define "index" }}
 <!DOCTYPE html>
-<html>
-    <head>  
+<html lang="en">
+    <head>
         <title>Our First HTML Site!</title>
-        <meta name = "viewport" content = "width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
     </head>
     <body>
-        Count {{ .Count }}
-        <button hx-post="/count">Increment</button>
+        {{ template "count" . }}
     </body>
 </html>
+{{ end }}
 
+{{ define "count" }}
+    Count {{ .Count }}
+    <button hx-post="/count" hx-target="body">Count</button>
+{{ end }}
 
