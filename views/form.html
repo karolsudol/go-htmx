@@ -1,7 +1,11 @@
 {{ block "form" . }}
-<form hx-target="body" hx-post="/contacts">
-    name: <input name="text" type="text"/>
-    email: <input name="email" type="text"/>
+<form hx-swap="outerHTML"  hx-target="#contacts" hx-post="/contacts">
+    <label for="name">Name</label>
+    <input name="name" placeholder="Name">
+
+    <label for="email">Email</label>
+    <input type="email" name="email" placeholder="Email">
+
     <button type="submit">Submit</button>
 </form>
 {{ end }}
