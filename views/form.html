@@ -1,0 +1,7 @@
+{{ block "form" . }}
+<form hx-target="body" hx-post="/contacts">
+    name: <input name="text" type="text"/>
+    email: <input name="email" type="text"/>
+    <button type="submit">Submit</button>
+</form>
+{{ end }}

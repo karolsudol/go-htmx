@@ -1,0 +1,10 @@
+{{ block "display" . }}
+<div style="display: flex; flex-direction: column">
+    {{ range .Contacts }}
+        <div>
+            Name: <span>{{ .Name }}</span>
+            Email: <span>{{ .Email }}</span>
+        </div>
+    {{ end }}
+</div>
+{{ end }}
