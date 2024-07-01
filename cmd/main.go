@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"io"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -25,7 +26,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 type Contact struct {
 	Name  string
 	Email string
-	ID    int
+	Id    int
 }
 
 type Data struct {
@@ -38,12 +39,12 @@ func NewData() *Data {
 			{
 				Name:  "John Doe",
 				Email: "john.doe@gmail.com",
-				ID:    1,
+				Id:    1,
 			},
 			{
 				Name:  "Jane Doe",
 				Email: "jain.doe@gmail.com",
-				ID:    2,
+				Id:    2,
 			},
 		},
 	}
@@ -68,7 +69,7 @@ type PageData struct {
 
 func NewContact(id int, name, email string) Contact {
 	return Contact{
-		ID:    id,
+		Id:    id,
 		Name:  name,
 		Email: email,
 	}
@@ -124,7 +125,6 @@ func main() {
 
 		contact := NewContact(id, name, email)
 		id++
-
 		data.Contacts = append(data.Contacts, contact)
 
 		formData := NewFormData()
@@ -134,6 +134,30 @@ func main() {
 		}
 
 		return c.Render(200, "oob-contact", contact)
+	})
+
+	e.DELETE("/contacts/:id", func(c echo.Context) error {
+		idStr := c.Param("id")
+		id, err := strconv.Atoi(idStr)
+
+		if err != nil {
+			return c.String(400, "Id must be an integer")
+		}
+
+		deleted := false
+		for i, contact := range data.Contacts {
+			if contact.Id == id {
+				data.Contacts = append(data.Contacts[:i], data.Contacts[i+1:]...)
+				deleted = true
+				break
+			}
+		}
+
+		if !deleted {
+			return c.String(400, "Contact not found")
+		}
+
+		return c.NoContent(200)
 	})
 
 	e.Logger.Fatal(e.Start(":42069"))
