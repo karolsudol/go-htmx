@@ -1,9 +1,0 @@
-{{ block "display" . }}
-<div id="contacts" style="display: flex; flex-direction: column;"></div>
-    {{ range .Contacts }}
-        <div>
-            Name: <span>{{ .Name }}</span>
-            Email: <span>{{ .Email }}</span>
-        </div>
-    {{ end }}
-{{ end }}

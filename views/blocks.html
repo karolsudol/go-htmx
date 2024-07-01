@@ -1,3 +1,25 @@
+{{ block "display" . }}
+<div id="contacts" style="display: flex; flex-direction: column;"></div>
+    {{ range .Contacts }}
+        <div>
+            Name: <span>{{ .Name }}</span>
+            Email: <span>{{ .Email }}</span>
+        </div>
+    {{ end }}
+{{ end }}
+
+{{ block "form" . }}
+<form hx-swap="outerHTML"  hx-target="#contacts" hx-post="/contacts">
+    <label for="name">Name</label>
+    <input name="name" placeholder="Name">
+
+    <label for="email">Email</label>
+    <input type="email" name="email" placeholder="Email">
+
+    <button type="submit">Submit</button>
+</form>
+{{ end }}  
+
 {{ block "contact-form" . }}
 <form id="contact-form" hx-post="/contacts" hx-swap="outerHTML">
     <label for="name">Name</label>
@@ -61,3 +83,4 @@
 __TESTING__
 </div>
 {{ end }}
+

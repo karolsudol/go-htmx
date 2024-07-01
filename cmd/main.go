@@ -25,6 +25,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 type Contact struct {
 	Name  string
 	Email string
+	ID    int
 }
 
 type Data struct {
@@ -37,10 +38,12 @@ func NewData() *Data {
 			{
 				Name:  "John Doe",
 				Email: "john.doe@gmail.com",
+				ID:    1,
 			},
 			{
 				Name:  "Jane Doe",
 				Email: "jain.doe@gmail.com",
+				ID:    2,
 			},
 		},
 	}
@@ -63,8 +66,9 @@ type PageData struct {
 	Form FormData
 }
 
-func NewContact(name, email string) Contact {
+func NewContact(id int, name, email string) Contact {
 	return Contact{
+		ID:    id,
 		Name:  name,
 		Email: email,
 	}
@@ -91,6 +95,7 @@ func main() {
 	e := echo.New()
 
 	data := NewData()
+	id := 3
 
 	e.Renderer = newTemplate()
 	e.Use(middleware.Logger())
@@ -117,12 +122,13 @@ func main() {
 			return c.Render(422, "contact-form", formData)
 		}
 
-		contact := NewContact(name, email)
+		contact := NewContact(id, name, email)
+		id++
+
 		data.Contacts = append(data.Contacts, contact)
 
 		formData := NewFormData()
 		err := c.Render(200, "contact-form", formData)
-
 		if err != nil {
 			return err
 		}
